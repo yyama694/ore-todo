@@ -26,10 +26,16 @@ export default {
     } ,
     methods : {
         addTask() {
+            // 空の場合は処理をスキップ
+            if(!this.newTask.trim()) {
+                return
+            }
             this.list.push({
                 id: this.nextId++,
                 value: this.newTask
             })
+            // テキストボックスを空にする
+            this.newTask = ""
         }
     }
 }
