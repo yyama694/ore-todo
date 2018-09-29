@@ -5,7 +5,11 @@
         <input type="button" value="追加" v-on:click="addTask">
         <div class="list">
             <ul>
-                <li v-for="item in list" :key="item.id">{{ item.value }}</li>
+                <li v-for="item in list" :key="item.id">
+                    {{ item.value }}　
+                    <input type="button" value="達成"> <!-- ここを追加 -->
+                    <input type="button" value="削除"> <!-- ここを追加 -->
+                </li>
             </ul>
         </div>
     </div>
@@ -23,10 +27,9 @@ export default {
             newTask: "",
             nextId: 4
         }
-    } ,
+    },
     methods : {
         addTask() {
-            // 空の場合は処理をスキップ
             if(!this.newTask.trim()) {
                 return
             }
@@ -34,7 +37,6 @@ export default {
                 id: this.nextId++,
                 value: this.newTask
             })
-            // テキストボックスを空にする
             this.newTask = ""
         }
     }
