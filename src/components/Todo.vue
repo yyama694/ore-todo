@@ -1,14 +1,14 @@
 <template>
     <div>
         <h1>Todo List</h1>
-        <input type="text" v-model="newTask">
-        <input type="button" value="追加" v-on:click="addTask">
+        <input type="text" v-model="newTask" @keydown.enter="addTask">
+        <input type="button" value="追加" @click="addTask">
         <div class="list">
             <ul>
                 <li v-for="item in list" :key="item.id">
                     <span :class="{ complete: item.isComplete }">{{ item.value }}　</span>
-                    <input type="button" value="達成" v-on:click="item.isComplete=true"> 
-                    <input type="button" value="削除"> 
+                    <input type="button" value="達成" @click="item.isComplete=true"> 
+                    <input type="button" value="削除" @click="deleteTask(item)"> 
                 </li>
             </ul>
         </div>
@@ -40,6 +40,9 @@ export default {
             })
             this.newTask = ""
         },
+        deleteTask(obj) {
+            this.list = this.list.filter(e => e !== obj)
+        }
     }
 }
 </script>
