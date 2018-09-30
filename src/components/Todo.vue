@@ -6,9 +6,9 @@
         <div class="list">
             <ul>
                 <li v-for="item in list" :key="item.id">
-                    {{ item.value }}　
-                    <input type="button" value="達成"> <!-- ここを追加 -->
-                    <input type="button" value="削除"> <!-- ここを追加 -->
+                    <span :class="{ complete: item.isComplete }">{{ item.value }}　</span>
+                    <input type="button" value="達成" v-on:click="item.isComplete=true"> 
+                    <input type="button" value="削除"> 
                 </li>
             </ul>
         </div>
@@ -20,9 +20,9 @@ export default {
     data() {
         return {
             list: [
-               { id:1, value: "たまご買う" },
-               { id:2, value: "図書館に本を返す" },
-               { id:3, value: "宅急便を受け取る" }
+               { id:1, value: "たまご買う", isComplete: false }, 
+               { id:2, value: "図書館に本を返す", isComplete: false },
+               { id:3, value: "宅急便を受け取る", isComplete: false }
             ],
             newTask: "",
             nextId: 4
@@ -35,10 +35,11 @@ export default {
             }
             this.list.push({
                 id: this.nextId++,
-                value: this.newTask
+                value: this.newTask,
+                isComplete: false 
             })
             this.newTask = ""
-        }
+        },
     }
 }
 </script>
@@ -48,5 +49,8 @@ export default {
     width: 60%;
     margin: auto;
     text-align: left;
+}
+.complete{
+    text-decoration: line-through;
 }
 </style>
