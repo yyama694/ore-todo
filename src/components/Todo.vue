@@ -1,17 +1,24 @@
 <template>
     <div>
         <h1>Todo List</h1>
-        <input type="text" v-model="newTask" @keydown.enter="addTask">
-        <input type="button" value="追加" @click="addTask">
-        <div class="list">
-            <ul>
-                <li v-for="item in list" :key="item.id">
-                    <span :class="{ complete: item.isComplete }">{{ item.value }}　</span>
-                    <input type="button" value="達成" @click="item.isComplete=true"> 
-                    <input type="button" value="削除" @click="deleteTask(item)"> 
-                </li>
-            </ul>
-        </div>
+        <el-input class="task-input" placeholder="追加するタスクを入力してください。" v-model="newTask" @keydown.enter.native="addTask"></el-input>
+        <el-button type="primary" plain @click="addTask">追加</el-button>
+        <el-table
+            :data="list"
+            stripe
+            class="list">
+            <el-table-column>
+                <template slot-scope="scope">
+                    <span :class="{ complete: scope.row.isComplete }">{{ scope.row.value }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column>
+                <template slot-scope="scope">
+                    <el-button @click="scope.row.isComplete=true" type="primary" plain size="small">達成</el-button>
+                    <el-button @click="deleteTask(scope.row)" type="danger" plain size="small">削除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
     </div>
 </template>
     
@@ -48,12 +55,30 @@ export default {
 </script>
 
 <style scoped>
-.list{
-    width: 60%;
+.list {
+    width: 80%;
     margin: auto;
     text-align: left;
 }
-.complete{
+.complete {
     text-decoration: line-through;
+}
+h1 {
+    position: relative;
+    line-height: 1.4;
+}
+h1:before { 
+    font-family: "Font Awesome 5 Free";
+    content: "\f00c";
+    font-size: 0.7em;
+    left: 0;
+    top: 0;
+    color: #5ab9ff;
+}
+.task-input {
+    width: 60%
+}
+.el-table {
+    padding: 8px
 }
 </style>
