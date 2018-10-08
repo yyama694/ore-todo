@@ -1,13 +1,13 @@
 <template>
     <div>
         <h1>Todo List</h1>
-        <el-input class="task-input" placeholder="追加するタスクを入力してください。" v-model="newTask" @keydown.enter.native="addTask"></el-input>
+        <el-input ref="new_task" class="task-input" placeholder="追加するタスクを入力してください。" v-model="newTask" @keydown.enter.native="addTask"></el-input>
         <el-button type="primary" plain @click="addTask">追加</el-button>
         <el-table
             :data="list"
             stripe
             class="list">
-            <el-table-column>
+            <el-table-column style="padding: 8px">
                 <template slot-scope="scope">
                     <span :class="{ complete: scope.row.isComplete }">{{ scope.row.value }}</span>
                 </template>
@@ -35,7 +35,7 @@ export default {
             nextId: 4
         }
     },
-    methods : {
+    methods: {
         addTask() {
             if(!this.newTask.trim()) {
                 return
@@ -50,7 +50,10 @@ export default {
         deleteTask(obj) {
             this.list = this.list.filter(e => e !== obj)
         }
-    }
+    },
+    mounted: function() {
+        this.$refs.new_task.focus()
+    } 
 }
 </script>
 
@@ -76,9 +79,6 @@ h1:before {
     color: #5ab9ff;
 }
 .task-input {
-    width: 60%
-}
-.el-table {
-    padding: 8px
+    width: 60%;
 }
 </style>
