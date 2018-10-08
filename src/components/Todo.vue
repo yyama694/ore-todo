@@ -14,7 +14,8 @@
             </el-table-column>
             <el-table-column>
                 <template slot-scope="scope">
-                    <el-button @click="scope.row.isComplete=true" type="primary" plain size="small">達成</el-button>
+                    <el-button @click="scope.row.isComplete=true" type="primary" plain size="small" v-if="!scope.row.isComplete">達成</el-button>
+                    <el-button @click="scope.row.isComplete=false" type="primary" plain size="small" v-if="scope.row.isComplete">戻す</el-button>
                     <el-button @click="deleteTask(scope.row)" type="danger" plain size="small">削除</el-button>
                 </template>
             </el-table-column>
