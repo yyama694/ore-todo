@@ -82,4 +82,7 @@ h1:before {
 .task-input {
     width: 60%;
 }
+.list >>> td {
+    padding: 5px;
+}
 </style>
