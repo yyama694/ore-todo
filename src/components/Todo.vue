@@ -6,7 +6,8 @@
         <el-table
             :data="list"
             stripe
-            class="list">
+            class="list"
+            row-class-name="todo-row">
             <el-table-column style="padding: 8px">
                 <template slot-scope="scope">
                     <span :class="{ complete: scope.row.isComplete }">{{ scope.row.value }}</span>
@@ -16,7 +17,7 @@
                 <template slot-scope="scope">
                     <el-button @click="scope.row.isComplete=true" type="primary" plain size="small" v-if="!scope.row.isComplete">達成</el-button>
                     <el-button @click="scope.row.isComplete=false" type="primary" plain size="small" v-if="scope.row.isComplete">戻す</el-button>
-                    <el-button @click="deleteTask(scope.row)" type="danger" plain size="small">削除</el-button>
+                    <el-button @click="deleteTask(scope)" type="danger" plain size="small">削除</el-button>
                 </template>
             </el-table-column>
         </el-table>
@@ -48,8 +49,29 @@ export default {
             })
             this.newTask = ""
         },
-        deleteTask(obj) {
-            this.list = this.list.filter(e => e !== obj)
+        deleteTask(scope) {
+            // TR タグを全て取得
+            const els = document.getElementsByClassName('todo-row')
+            
+            // 削除ボタンが押された行に deleting クラスを追加
+            els[scope.$index].classList.add('deleting')
+
+            // this を別変数で保管
+            const self = this
+
+            // setTimeout に渡す関数を定義
+            const f = function() { 
+                // list から 削除する要素を削除
+                self.list = self.list.filter(e => e !== scope.row)
+                
+                // 全ての TR タグから deleting クラスを削除
+                for(var i=0; i < els.length; i++){
+                    els[i].classList.remove('deleting');
+                }
+            }
+
+            // 0.5 秒後に削除を実施する
+            setTimeout(f, 500);
         }
     },
     mounted: function() {
@@ -84,5 +106,12 @@ h1:before {
 }
 .list >>> td {
     padding: 5px;
+}
+@keyframes fadeout {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
+}
+.list >>> .deleting {
+    animation: fadeout 0.5s ease 0s forwards;
 }
 </style>
